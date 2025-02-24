@@ -1,0 +1,26 @@
+import requests
+
+def fetch_url(url, method='GET', data=None, headers=None):
+    """
+    Fetches data from a given URL using GET or POST method.
+    :param url: URL to fetch data from.
+    :param method: HTTP method ('GET' or 'POST').
+    :param data: Data for POST request.
+    :param headers: Additional headers if required.
+    :return: Response text or error message.
+    """
+    try:
+        if method.upper() == 'POST':
+            response = requests.post(url, data=data, headers=headers)
+        else:
+            response = requests.get(url, headers=headers)
+        
+        response.raise_for_status()  # Raise HTTPError for bad responses (4xx and 5xx)
+        return response.text
+    except requests.exceptions.RequestException as e:
+        return f"Error: {e}"
+
+# Example Usage
+if _name_ == "_main_":
+    test_url = "https://jsonplaceholder.typicode.com/posts/1"
+    print(fetch_url(test_url))
